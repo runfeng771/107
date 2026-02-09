@@ -1214,7 +1214,7 @@ HTML = r"""
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>CMS 多环境解封控制台</title>
+  <title>HH@by测试组✅CMS多环境登录解封工具</title>
   <style>
     :root{
       --bg0:#050816; --bg1:#0a102a;
@@ -1422,7 +1422,7 @@ HTML = r"""
 <body>
 <div class="wrap">
   <div class="nav">
-    <div class="brand"><span class="dot"></span>CMS 多环境解封控制台</div>
+    <div class="brand"><span class="dot"></span>CMS 多环境登录解封工具✅HH@by测试组</div>
     <div class="nav-right">
       <span class="chip" id="nowClock">--</span>
       <span class="chip" id="serverChip">server: --</span>
@@ -1490,25 +1490,34 @@ HTML = r"""
            <button class="btn btn-ghost" onclick="loginNowManage()">立即登录</button>
            <button class="btn btn-ghost" onclick="clearLogsManage()">清空日志</button>
         </div>
+<!-- 第1行：账号选择 -->
+<div class="row" style="gap:10px; flex-wrap:wrap; margin-top:12px; align-items:center;">
+  <span class="label" style="min-width:88px;">账号</span>
 
-        <div class="row" style="gap:10px; flex-wrap:wrap; margin-top:12px; align-items:center;">
-          <span class="label" style="min-width:88px;">账号</span>
+  <select id="manageAccountSelect" style="max-width:360px; min-width:240px;" onchange="onManageAccountSelectChange()">
+    <option value="">（未选择）</option>
+  </select>
 
-          <select id="manageAccountSelect" style="max-width:360px; min-width:240px;" onchange="onManageAccountSelectChange()">
-            <option value="">（未选择）</option>
-          </select>
+  <span class="hint" id="manageAccountHint" style="font-family:var(--mono);">当前：--</span>
 
-          <span class="hint" id="manageAccountHint" style="font-family:var(--mono);">当前：--</span>
+  <button class="btn btn-ghost" onclick="deleteSelectedManageAccount()">删除所选账号</button>
+</div>
 
-          <button class="btn btn-ghost" onclick="deleteSelectedManageAccount()">删除所选账号</button>
+<!-- 第2行A：新增/更新账号（账号） -->
+<div class="row" style="gap:10px; flex-wrap:wrap; margin-top:8px; align-items:center;">
+  <span class="label" style="min-width:88px;">新增/更新账号</span>
+  <input id="cfgAccount" placeholder="输入账号（将保存到当前环境）" style="max-width:260px;" />
+  <button class="btn btn-good" onclick="saveCreds()">保存并登录</button>
+</div>
 
-          <span class="label" style="min-width:88px;">新增/更新账号</span>
-          <input id="cfgAccount" placeholder="输入账号（将保存到当前环境）" style="max-width:260px;" />
-          <span class="label" style="min-width:88px;">密码</span>
-          <input id="cfgPassword" placeholder="输入密码（仅后端保存）" type="password" style="max-width:260px;" />
-          <button class="btn btn-good" onclick="saveCreds()">保存并登录</button>
-          <span class="hint">（同一环境可保存多个账号；页面只展示账号，不展示密码；切换环境自动切换账号列表）</span>
-        </div>
+<!-- 第2行B：密码 -->
+<div class="row" style="gap:10px; flex-wrap:wrap; margin-top:8px; align-items:center;">
+  <span class="label" style="min-width:88px;">密码</span>
+  <input id="cfgPassword" placeholder="输入密码（仅后端保存）" type="password" style="max-width:260px;" />
+  <span class="hint">（同一环境可保存多个账号；页面只展示账号，不展示密码；切换环境自动切换账号列表）</span>
+</div>
+
+
 
         <div class="hr"></div>
 
@@ -1605,27 +1614,29 @@ HTML = r"""
 </label>
         </div>
         <div id="memberSearchBoxWrapper2" style="margin-top:8px;"></div>
+<!-- [START] 成员表格滚动容器 + 固定表头 + 绿色表头 -->
+<div style="overflow:auto; max-height:520px; margin-top:10px; border:1px solid rgba(185,200,255,.14); border-radius:14px;">
+  <table style="width:100%; border-collapse:collapse; min-width:1040px;">
+    <thead>
+      <tr>
+        <th class="chkCol2" style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:6px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">单选</th>
+        <th style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:8px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">账号状态</th>
+        <th style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:8px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">角色</th>
+        <th style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:8px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">UUID</th>
+        <th style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:8px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">ShowID</th>
+        <th style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:8px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">头像</th>
+        <th style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:8px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">昵称</th>
+        <th style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:8px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">联盟币</th>
+        <th style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:8px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">钻石</th>
+        <th style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:8px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">星币</th>
+        <th style="position:sticky; top:0; z-index:3; background:linear-gradient(180deg, rgba(50,255,155,.95) 0%, rgba(18,190,105,.92) 100%); color:#fff; padding:8px; border:1px solid rgba(50,255,155,.55); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 -1px 0 rgba(0,0,0,.25) inset;">金币</th>
+      </tr>
+    </thead>
+    <tbody id="memberList2"></tbody>
+  </table>
+</div>
+<!-- [END] 成员表格滚动容器 + 固定表头 + 绿色表头 -->
 
-        <div style="overflow:auto; max-height:520px; margin-top:10px; border:1px solid rgba(185,200,255,.14); border-radius:14px;">
-          <table style="width:100%; border-collapse:collapse; min-width:1040px;">
-            <thead>
-              <tr style="background:rgba(108,168,255,.10);">
-                <th class="chkCol2" style="padding:6px; border:1px solid rgba(185,200,255,.14);">单选</th>
-                <th style="padding:8px; border:1px solid rgba(185,200,255,.14);">账号状态</th>
-                <th style="padding:8px; border:1px solid rgba(185,200,255,.14);">角色</th>
-                <th style="padding:8px; border:1px solid rgba(185,200,255,.14);">UUID</th>
-                <th style="padding:8px; border:1px solid rgba(185,200,255,.14);">ShowID</th>
-                <th style="padding:8px; border:1px solid rgba(185,200,255,.14);">头像</th>
-                <th style="padding:8px; border:1px solid rgba(185,200,255,.14);">昵称</th>
-                <th style="padding:8px; border:1px solid rgba(185,200,255,.14);">联盟币</th>
-                <th style="padding:8px; border:1px solid rgba(185,200,255,.14);">钻石</th>
-                <th style="padding:8px; border:1px solid rgba(185,200,255,.14);">星币</th>
-                <th style="padding:8px; border:1px solid rgba(185,200,255,.14);">金币</th>
-              </tr>
-            </thead>
-            <tbody id="memberList2"></tbody>
-          </table>
-        </div>
 
         <div class="hr"></div>
 
@@ -2336,7 +2347,8 @@ async function lookupUser(isAutoDefault=false){
     wrapper.innerHTML = `
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <input id="memberSearchInput2" type="text" placeholder="输入 UUID / ShowID / 昵称 模糊搜索"
-          style="flex:1;min-width:240px;padding:10px 12px;border-radius:12px;border:1px solid rgba(185,200,255,.16);background:rgba(255,255,255,.05);color:rgba(234,240,255,.92);" />
+  style="flex:1;min-width:240px;padding:10px 12px;border-radius:12px;border:1px solid rgba(185,200,255,.16);background:rgba(255,255,255,.05);color:rgba(234,240,255,.92);" />
+<style>#memberSearchInput2::placeholder{color:#000 !important;}</style>
         <button id="btnClearSearch2" class="btn btn-bad" style="padding:10px 14px;">清空</button>
       </div>
     `;
